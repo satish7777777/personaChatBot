@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
 
 ## Getting Started
 
@@ -14,20 +14,56 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# 🎯 GenAI Instructors — Hitesh Choudhary & Piyush Garg Chatbots
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+This project is a **Next.js 14** web application that uses the **OpenAI API** to create two chatbot personas trained from **YouTube transcripts**:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Hitesh Choudhary** — Founder of Chai Aur Code  
+- **Piyush Garg** — Full Stack & MERN Developer  
 
-## Learn More
+Users can select a chatbot from the home page and start chatting in the **authentic tone and style** of that person.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 Features
+- Two unique chatbots with distinct personalities.
+- Transcript-based context to mimic tone and knowledge.
+- Modern, mobile-friendly chat UI.
+- API routes in **Next.js App Router** for backend logic.
+- Hindi content automatically transliterated to English phonetics.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
+
+## 🛠️ Tech Stack
+
+### **Frontend**
+- **Next.js 14 (App Router)** — React framework for UI & routing
+- **Tailwind CSS** — Styling
+- **React Hooks** — State management (`useState`, `useRouter`)
+- **Responsive UI** — Works across mobile and desktop
+
+### **Backend**
+- **Next.js API Routes** — For handling chat requests
+- **OpenAI Node SDK** — LLM integration
+- **Node.js FS & Path** — Reading transcript files
+
+---
+
+## 📦 Dependencies
+
+| Dependency | Purpose |
+|------------|---------|
+| `next` | React framework |
+| `react` / `react-dom` | Core UI rendering |
+| `tailwindcss` | Styling |
+| `openai` | OpenAI API SDK |
+| `@indic-transliteration/sanscript` | Transliterate Hindi → English phonetics |
+| `fs` / `path` | File system for transcript reading |
+
+Install all dependencies:
+```bash
+npm install next react react-dom tailwindcss openai @indic-transliteration/sanscript
+
 
 ## Deploy on Vercel
 
