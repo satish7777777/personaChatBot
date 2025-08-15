@@ -1,108 +1,64 @@
 'use client';
-
-import { useState } from 'react';
-
-/**
- * @typedef {Object} ChatMessage
- * @property {'user' | 'assistant'} role
- * @property {string} content
- */
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  /** @type {[ChatMessage[], Function]} */
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  async function sendMessage() {
-    if (!input.trim()) return;
-
-    const newMessages = [...messages, { role: 'user', content: input }];
-    setMessages(newMessages);
-    setInput('');
-    setLoading(true);
-
-    try {
-     const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: input }),
-      });
-
-      const data = await res.json();
-      if (data.reply) {
-        setMessages([...newMessages, { role: 'assistant', content: data.reply }]);
-      }
-    } catch (error) {
-      console.error('Error sending message:', error);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const bots = [
+    {
+      name: 'Hitesh Choudhary',
+      image: 'https://avatars.githubusercontent.com/u/11613311?v=4',
+      link: '/chat/hitesh',
+      desc: 'Founder of Chai Aur Code',
+      color: 'from-indigo-500 to-blue-500',
+    },
+    {
+      name: 'Piyush Garg',
+      image: 'https://www.piyushgarg.dev/_next/image?url=%2Fimages%2Favatar.png&w=1080&q=75',
+      link: '/chat/piyush',
+      desc: 'Full Stack & MERN Developer',
+      color: 'from-teal-500 to-emerald-500',
+    },
+  ];
 
   return (
-<div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
-  <div className="w-full max-w-2xl bg-white shadow-lg rounded-xl flex flex-col h-[85vh] overflow-hidden">
-    
-    {/* Header */}
-    <div className="flex items-center gap-3 bg-[#1E3A8A] text-white px-4 py-3">
-      <img
-        src="https://avatars.githubusercontent.com/u/11613311?v=4"
-        alt="Hitesh Choudhary"
-        className="w-10 h-10 rounded-full border-2 border-white"
-      />
-      <div>
-        <h1 className="text-lg font-semibold">Hitesh Choudhary</h1>
-        <p className="text-sm text-teal-300">Online</p>
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center p-8">
+      {/* Page Title */}
+      <h1 className="text-4xl font-extrabold text-gray-800 mb-2">GenAI Instructors</h1>
+      <p className="text-gray-500 mb-10 text-center max-w-xl">
+        Choose your instructor to start a conversation and learn interactively.
+      </p>
+
+      {/* Bot Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full max-w-4xl">
+        {bots.map((bot) => (
+          <div
+            key={bot.name}
+            onClick={() => router.push(bot.link)}
+            className="group bg-white shadow-md rounded-xl p-6 cursor-pointer hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 border border-gray-100"
+          >
+            <div className={`w-24 h-24 mx-auto rounded-full bg-gradient-to-br ${bot.color} p-[3px]`}>
+              <img
+                src={bot.image}
+                alt={bot.name}
+                className="w-full h-full rounded-full object-cover border-4 border-white"
+              />
+            </div>
+
+            <h2 className="text-xl font-semibold text-center mt-5 group-hover:text-gray-900">
+              {bot.name}
+            </h2>
+            <p className="text-sm text-gray-500 text-center mt-2">{bot.desc}</p>
+
+            {/* Hover underline */}
+            <div className="mt-4 text-center">
+              <span className="inline-block text-sm font-bold text-gray-900 group-hover:underline">
+                Chat Now →
+              </span>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
-
-    {/* Chat Messages */}
-    <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 bg-gray-50">
-      {messages.map((msg, i) => (
-        <div
-          key={i}
-          className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-        >
-          <div
-            className={`px-4 py-2 rounded-lg max-w-[75%] text-sm shadow-sm ${
-              msg.role === 'user'
-                ? 'bg-[#1E3A8A] text-white rounded-br-none'
-                : 'bg-white text-gray-800 border border-gray-200 rounded-bl-none'
-            }`}
-          >
-            {msg.content}
-          </div>
-        </div>
-      ))}
-      {loading && (
-        <div className="flex justify-start">
-          <div className="bg-white border border-gray-200 px-4 py-2 rounded-lg text-gray-500 text-sm">
-            Hitesh is typing...
-          </div>
-        </div>
-      )}
-    </div>
-
-    {/* Input Box */}
-    <div className="p-3 bg-gray-100 border-t border-gray-200 flex items-center gap-2">
-      <input
-        className="flex-1 border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Type a message..."
-        onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-      />
-      <button
-        className="bg-[#14B8A6] hover:bg-[#0D9488] text-white px-5 py-2 rounded-full text-sm font-medium transition"
-        onClick={sendMessage}
-        disabled={loading}
-      >
-        Send
-      </button>
-    </div>
-  </div>
-</div>
-
   );
 }
